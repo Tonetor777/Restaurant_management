@@ -53,9 +53,6 @@ void mobile_banking(char){
 	    cin>>done;
 		cout<<"your payment is completed"<<endl;
 	}
-	
-	    
-		
 int main(){
 string Y,y,n;
 double total,tax,discount,Ttotal,Tdiscount;
