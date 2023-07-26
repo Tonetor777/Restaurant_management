@@ -43,12 +43,19 @@ void mobile_banking(char){
 	 else if(choice1==2){
 		cout<<"The account no is 76542890"<<endl;
    }
-		else{
-		cout<<"The account number is 4092766"<<endl;
+	else if(choice1==3){
+		cout<<"The account number is 4092345766"<<endl;
 	}
-	    cout<<"your payment is on transaction"<<endl;
+	else{
+		cout<<"wrong choice\n";
+	}
+	    cout<<"when you complete your payment please enter any key"<<endl;
+	    cin>>done;
 		cout<<"your payment is completed"<<endl;
 	}
+	
+	    
+		
 int main(){
 string Y,y,n;
 double total,tax,discount,Ttotal,Tdiscount;
