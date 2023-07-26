@@ -4,26 +4,43 @@ void cash(char){
 		cout<<"your payment is completed"<<endl;
 	}
 void credit_card(int){
-	int pin;
-	cout<<"please insert your card to the post machine"<<endl;
-	cout<<"-------------------"<<endl;
-	cout<<"Enter your pin code"<<endl;
+	string name;
+	int pin,cvv,Expt;
+	double c_No;
+label:
+	cout<<"Please enter your card number"<<endl;
+	cin>>c_No;
+	cout<<"Please enter the card Expiration  year"<<endl;
+	cin>>Expt;
+	if(Expt<2023){
+		cout<<"sorry your card  expired"<<endl;
+		cout<<"use another card, please"<<endl;
+		goto label;
+	}
+	else{
+	cout<<"Please enter cvv the three digit number"<<endl;
+	cin>>cvv;
+	cout<<"Enter the name on the card"<<endl;
+	cin>>name;
+	cout<<"Please enter any number to confirm "<<endl;
 	cin>>pin;
-	cout<<"your payment is on transaction"<<endl;
 	cout<<"your payment is completed"<<endl;
+	}
 }
+
 void mobile_banking(char){
-	int choicr1;
+	int choice1;
+	string done;
 	cout<<"In which mobile banking you want to pay?"<<endl;
 	cout<<"[Choice 1] CBE\n";
     cout<<"[Choice 2] Dashen\n";
     cout<<"[Choice 3] Awash\n";
     cout<<"Enter your choice\n";
-    cin>>choicr1;
-     if(choicr1==1){
+    cin>>choice1;
+     if(choice1==1){
 		 cout<<"The account no is 10003456789"<<endl;
 	}
-	 else if(choicr1==2){
+	 else if(choice1==2){
 		cout<<"The account no is 76542890"<<endl;
    }
 		else{
@@ -75,7 +92,10 @@ if(Y=="y"||Y=="Y"){
 	else if(choice==2){
 		credit_card(2);
 	}
-	else{
+	else if(choice==3){
 		mobile_banking(3);
 	}
+	else
+	cout<<"wrong choice"<<endl;
+
 }
