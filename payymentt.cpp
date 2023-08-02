@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 void cash(char){
-		cout<<"your payment is completed"<<endl;
+		cout<<"you can pay to the cashier"<<endl;
 	}
 void credit_card(int){
 	string name;
@@ -27,7 +27,6 @@ label:
 	cout<<"your payment is completed"<<endl;
 	}
 }
-
 void mobile_banking(char){
 	int choice1;
 	string done;
@@ -82,14 +81,6 @@ if(Y=="y"||Y=="Y"){
     cout<<"[Choice 3] mobile_banking\n";
     cout<<"Enter your choice\n";
     	cin>>choice;
-	switch(choice){
-		case1:cash;
-		break;
-		case2:credit_card;
-		break;
-		case3:mobile_banking;
-		break;
-	}
 	if(choice==1){
 		cash(2);
 	}
@@ -101,5 +92,4 @@ if(Y=="y"||Y=="Y"){
 	}
 	else
 	cout<<"wrong choice"<<endl;
-
 }
