@@ -3,7 +3,7 @@
 #include <string.h>
 using namespace std; 
 int number_of_foods = 9 , number_of_drinks = 7 , order_no = 0 , food_no , drink_no , table[10] = {1,2,3,4,5,6,7,8,9,10} , table_no = 10 , count_rate, sum_rate = 0; 
-double price , daily_income = 0 , average_rate;
+double price , daily_income = 0, average_rate;
 
 struct foods{
     string name; 
