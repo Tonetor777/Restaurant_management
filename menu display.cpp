@@ -67,6 +67,6 @@ start:{	firstchoice();
 	if(c1.ans=='y'||c1.ans=='Y')
 	goto start;
  
- else cout<<"\nThank You For Ordering From KK Yellow!!!"<<endl;
+ else cout<<"\nThank You For Ordering From Salem Restaurant!!!"<<endl;
 }	
 }
