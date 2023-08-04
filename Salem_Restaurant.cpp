@@ -579,12 +579,13 @@ else if (option == 2) {
     goto label; 
 	 }
 else if (option == 3) {
+     char key;
      system("cls");
      review.open("comments.txt", ios::in);
      if (review.good() && review.peek() != ifstream:: traits_type::eof()){
      cout << review.rdbuf(); 
      cout << "Enter any number when you are done\n"; 
-     cin >> option; 
+     cin >> key; 
      }
      else cout << "No Comments Yet!"<< endl; 
      goto label; 
@@ -619,19 +620,21 @@ void Record() {
 
 void daily_report() {
   system ("cls");
-  int hold;
   report.open("Daily_Report.txt", ios::app);
   if (report.is_open()) {
+    report << "****************************************************\n";
     report << "REPORT FOR: "<< __DATE__ << endl << endl; 
     report << "TOTAL NUMBER OF ORDERS: "<< order_no << endl; 
     report << "TOTAL INCOME: "<< daily_income << endl; 
     report << "DAILY AVERAGE RATING: "<< AverageRate() <<endl; 
+    report << "****************************************************\n";
+
   }
   report.close();
-  report.open("Daily_Report.txt", ios::in);
-  cout << report.rdbuf();
-  cin>>hold;
-  report.close();
+    cout << "REPORT FOR: "<< __DATE__ << endl << endl; 
+    cout << "TOTAL NUMBER OF ORDERS: "<< order_no << endl; 
+    cout << "TOTAL INCOME: "<< daily_income << endl; 
+    cout << "DAILY AVERAGE RATING: "<< AverageRate() <<endl;
 }
 
 int main () {
@@ -676,10 +679,12 @@ int main () {
             
          }      
   else if (customer_choice == 2) {
+             char cho;
              system("cls");
              about_us.open("aboutus.txt", ios::in); 
              cout<< about_us.rdbuf(); 
-             cin >> choice;
+             cout<< "\n\n\n\n Enter any key to go back: "; 
+             cin >> cho;
          }
   else if (customer_choice == 3) {
               rating();
