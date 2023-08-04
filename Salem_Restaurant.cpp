@@ -61,9 +61,9 @@ else {
 }
 }
 int employees () {
-  int option;
-  lable:
-  cout << "OPTIONS" << endl; 
+int option;
+lable:
+cout << "OPTIONS" << endl; 
 cout << "1. MENU MANAGEMENT"<< endl; 
 cout << "2. TABLE MANAGEMENT" << endl; 
 cout << "3. EXIT" << endl; 
@@ -450,24 +450,24 @@ void credit_card(int){
 	string name,pin;
 	int cvv,Expt;
 	double c_No;
-label:
+  label:
 	cout<<"Please enter your card number"<<endl;
 	cin>>c_No;
 	cout<<"Please enter the card Expiration  year"<<endl;
 	cin>>Expt;
 	if(Expt<2023){
-		cout<<"sorry your card  expired"<<endl;
-		cout<<"use another card, please"<<endl;
-		goto label;
+		  cout<<"sorry your card  expired"<<endl;
+		  cout<<"use another card, please"<<endl;
+		  goto label;
 	}
 	else{
-	cout<<"Please enter cvv the three digit number"<<endl;
-	cin>>cvv;
-	cout<<"Enter the name on the card"<<endl;
-	cin>>name;
-	cout<<"Please enter any key to confirm "<<endl;
-	cin>>pin;
-	cout<<"your payment is completed"<<endl;
+	    cout<<"Please enter cvv the three digit number"<<endl;
+	    cin>>cvv;
+	    cout<<"Enter the name on the card"<<endl;
+	    cin>>name;
+	    cout<<"Please enter any key to confirm "<<endl;
+	    cin>>pin;
+	    cout<<"your payment is completed"<<endl;
 	}
 }
 void mobile_banking(char){
@@ -479,21 +479,21 @@ void mobile_banking(char){
     cout<<"3. Awash\n";
     cout<<"Enter your choice: ";
     cin>>choice1;
-     if(choice1==1){
-		 cout<<"The account no is 10003456789"<<endl;
+      if(choice1==1){
+		       cout<<"The account no is 10003456789"<<endl;
 	}
-	 else if(choice1==2){
-		cout<<"The account no is 76542896540"<<endl;
+	    else if(choice1==2){
+		       cout<<"The account no is 76542896540"<<endl;
    }
-		else if(choice1==3){
-		cout<<"The account number is 4092345766"<<endl;
+		  else if(choice1==3){
+		       cout<<"The account number is 4092345766"<<endl;
 	}
-	else{
-		cout<<"wrong choice\n";
+	    else{
+		       cout<<"wrong choice\n";
 	}
-	    cout<<"when you complete your payment please enter any key"<<endl;
-	    cin>>done;
-		  cout<<"your payment is completed"<<endl;
+	  cout<<"when you complete your payment please enter any key"<<endl;
+	  cin>>done;
+		cout<<"your payment is completed"<<endl;
 	}
 
 void payment_calculation ( double price){
@@ -526,16 +526,16 @@ void payment_calculation ( double price){
         cout<<"Enter your choice: ";
         cin>>choice;
 	if(choice==1){
-		cash(2);
+		      cash(2);
 	}
 	else if(choice==2){
-		credit_card(2);
+		      credit_card(2);
 	}
 	else if(choice==3){
-		mobile_banking(3);
+		      mobile_banking(3);
 	}
 	else
-	cout<<"wrong choice"<<endl;
+	        cout<<"wrong choice"<<endl;
 	}
 
 double AverageRate(){
@@ -597,8 +597,6 @@ else {
   goto label;
 }
 }
-
-
 void Record() {
     OrderTrack.open("Order_Record.txt", ios::app);
     if(OrderTrack.is_open()){
@@ -650,30 +648,44 @@ int main () {
   lable:
   choice = option(); 
   if(choice == 1) {
-        customer_choice = customer();
-        if (customer_choice == 1) {
-             char done; 
-             table_reserve();
-             menu(); 
-             order_placement(); 
-             manage_order();
-             payment_calculation(price); 
-             Record();
-             cout << "Thank You, Have a nice Meal! (Press any key) \n";
-             order_no += 1; 
-             cin >> done; 
+    customer_choice = customer();
+      if (customer_choice == 1) {
+           char done; int order; 
+           table_reserve();
+           menu(); 
+           cout << "Do You want to Order now? \n";
+           cout << "1. Yes\n";
+           cout << "2. No\n";
+           cin >> order;
+             if (order == 1) {
+                   order_placement(); 
+                   manage_order();
+                   payment_calculation(price); 
+                   Record();
+                   cout << "Thank You, Have a nice Meal! (Press any key) \n";
+                   order_no += 1; 
+                   cin >> done; 
+             }
+             else if (order == 2){
+                   goto lable;
+             }
+             else {
+                   cout << "Wrong Input\n";
+                   goto lable;
+             }
+            
          }      
-         else if (customer_choice == 2) {
+  else if (customer_choice == 2) {
              system("cls");
              about_us.open("aboutus.txt", ios::in); 
              cout<< about_us.rdbuf(); 
              cin >> choice;
          }
-         else if (customer_choice == 3) {
+  else if (customer_choice == 3) {
               rating();
          }
-         else cout << "Wrong Input!\n";
-  }
+  else cout << "Wrong Input!\n";
+}
   else if (choice== 2) {
             employee_choice = employees(); 
             if (employee_choice == 1) {
