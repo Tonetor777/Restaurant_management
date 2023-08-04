@@ -7,7 +7,7 @@ int tables[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 fstream table , OrderTrack , review , about_us , report;
 int number_of_foods = 9 , number_of_drinks = 7 , order_no = 0 , food_no , drink_no , count_rate = 0; 
 double price , daily_income = 0 , sum_rate = 0;
-
+string line;
 struct foods{
     string name; 
     float price;
@@ -133,50 +133,11 @@ void display(int arr[10]){
         }
     } 
 }
-void table_reserve () {
-int choice;
-string line2;
-int tablenum;
-bool reserve = true;
-while(reserve){
-    cout << "---------------------\n"; 
-    cout << "TABLE RESERVATION" << endl; 
-    cout << "---------------------"; 
-    cout<<"\n OPTIONS \n1. Reserve a table\n2. Display available tables\n3. Delete reservation\n4. Exit\n";
-    cin>>choice;
-    
-    switch(choice){
-        case 1: 
-            cout<<"Enter table number: ";
-            cin>>tablenum;
-            available(tables);
-            if(tables[tablenum-1]== 0){
-                cout<<"This table is UNAVAILABLE please choose another table"<<endl;
-                break;
-            }
-            append(tablenum);
-            order[order_no].table_no = tablenum;  
-            tables[tablenum-1] = 0;
-            cout << "Enter '1' to Edit your reservation or any other number to confirm your reservation.\n"; 
-            cin >> choice; 
-            if (choice == 1) 
-                 system("cls"); 
-            else {
-                reserve= false; 
-                system("cls"); 
-                cout << "Table Reservation Confirmed"; 
-             }
-            break;
-        case 2:
-           system("cls");
-           available(tables);
-           display(tables);
-           break;
-      
-        case 3:
-            cout<<"Enter table number: ";
-            cin>>tablenum;
-            if(tables[tablenum-1] != 0){
+void delete_table() {
+  int tablenum;
+  cout << "Enter table number: "; 
+  cin >> tablenum;
+   if(tables[tablenum-1] != 0){
                 cout<<"This table is not occupied please choose another table"<<endl;
                
             }
@@ -192,9 +153,9 @@ while(reserve){
                 string check = "Table "+to_string(tablenum)+" Reserved";
                 if(table.is_open()){
                     int i= 0;
-                    while(getline(table, line2)){
-                        if(line2 != check){
-                            update[i] = line2;
+                    while(getline(table, line)){
+                        if(line != check){
+                            update[i] = line;
                             i++;
                             }}
                     table.close();        
@@ -214,10 +175,46 @@ while(reserve){
                     }
                 table.close();    
             } 
-            break;  
-        case 4: 
-        
-            cout<<"Thank you for visiting us! ";
+}
+void table_reserve () {
+int choice;
+int tablenum;
+bool reserve = true;
+while(reserve){
+    cout << "---------------------\n"; 
+    cout << "TABLE RESERVATION" << endl; 
+    cout << "---------------------"; 
+    cout<<"\n OPTIONS \n1. Reserve a table\n2. Display available tables\n3. Exit \n";
+    cin>>choice;
+    
+    switch(choice){
+        case 1: 
+            cout<<"Enter table number: ";
+            cin>>tablenum;
+            available(tables);
+            if(tables[tablenum-1]== 0){
+                cout<<"This table is UNAVAILABLE please choose another table"<<endl;
+                break;
+            }
+            cout << "Enter '1' to Edit your reservation or any other number to confirm your reservation.\n"; 
+            cin >> choice; 
+            if (choice == 1) {
+                 system("cls"); 
+               }
+            else { 
+                system("cls"); 
+                append(tablenum);
+                order[order_no].table_no = tablenum;  
+                tables[tablenum-1] = 0;
+                cout << "Table Reservation Confirmed" << endl; 
+             }
+            break;
+        case 2:
+           system("cls");
+           available(tables);
+           display(tables);
+           break;
+        case 3:
             reserve = false;
             break;
         default:
@@ -225,46 +222,22 @@ while(reserve){
     }
 }
 }
-
-
 void normal_food_menu() {
-    food_item[0].name = "Dench";
-    food_item[1].name = "Dench Special";
-    food_item[2].name = "Enkulal Sandwich";
-    food_item[3].name = "Enkulal Sandwich Special";
-    food_item[4].name = "Pasta";
-    food_item[5].name = "Pasta be Soya";
-    food_item[6].name = "Ruz ";
-    food_item[7].name = "Ruz be Soya";
-    food_item[8].name = "Soya";
-    food_item[0].price = 30;
-    food_item[1].price = 55;
-    food_item[2].price = 45;
-    food_item[3].price = 60;
-    food_item[4].price = 40;
-    food_item[5].price = 50;
-    food_item[6].price = 35;
-    food_item[7].price = 45;
-    food_item[8].price = 35;
+  string food[9] = {"Dench", "Dench Special", "Enkulal Sandwich", "Enkulal Sandwich Special", "Pasta", "Pasta be Soya", "Ruz", "Ruz be Soya", "Soya"};
+  int price[9] = {30, 55, 45, 60, 40, 50, 35, 45, 35};
+  for(int i =0; i<9 ;i++){
+    food_item[i].name = food[i];
+    food_item[i].price = price[i];
+  }
 }
-
 void normal_drinks() {
-     drink_item[0].name = "Coca";
-     drink_item[1].name = "Fanta";
-     drink_item[2].name = "Sprite";
-     drink_item[3].name = "Pridator";
-     drink_item[4].name = "Juice";
-     drink_item[5].name = "Milk";
-     drink_item[6].name = "Yoghurt";
-     drink_item[0].price = 40;
-     drink_item[1].price = 40;
-     drink_item[2].price = 40;
-     drink_item[3].price = 50;
-     drink_item[4].price = 30;
-     drink_item[5].price = 45;
-     drink_item[6].price = 50;
+  string drink[7] = {"Coca", "Fanta", "Sprite", "Predator", "Juice", "Milk", "Yoghurt"};
+  int price[7] = {40, 40, 40, 50, 30, 45, 50};
+  for(int i = 0; i < 7; i++){
+    drink_item[i].name = drink[i];
+    drink_item[i].price = price[i];
+  }
 }
-
 void menu () {
   system("cls");
   cout << endl << endl; 
@@ -291,23 +264,34 @@ void menu () {
 void order_display () {
         price = 0;  
         cout <<"ORDER:" << endl; 
-        cout << " "<< left << setw(20) << "FOOD" << setw(10) << "QUANTITY" << setw(5)<< "PRICE"<< endl;
+          if (food_no > 0) {
+                 cout << " "<< left << setw(20) << "FOOD" << setw(10) << "QUANTITY" << setw(5)<< "PRICE"<< endl;
           for (int i = 0 ;i < food_no ; i++) {
                 cout << setw(2) << i + 1 << ":" << setw(20) << food_item[order[order_no].food[i] - 1].name<< setw(10) << order[order_no].food_quantity[i] << setw(5)<<food_item[order[order_no].food[i] - 1].price * order[order_no].food_quantity[i] << endl; 
                 price += food_item[order[order_no].food[i] - 1].price * order[order_no].food_quantity[i];
           } 
+          }
+          if (drink_no > 0) {
          cout << " "<< left << setw(20) << "DRINK" << setw(10) << "QUANTITY" << setw(5)<< "PRICE"<< endl;
            for (int i = 0 ;i < drink_no ; i++) {
                 cout << setw(2) << i + 1 << ":" << setw(20) << drink_item[order[order_no].drink[i] - 1].name<< setw(10) << order[order_no].drink_quantity[i] << setw(5)<<drink_item[order[order_no].drink[i] - 1].price * order[order_no].drink_quantity[i]<< endl;
                 price += drink_item[order[order_no].drink[i] - 1].price * order[order_no].drink_quantity[i];
            }
+          }
      }
 void order_placement(){
-     int  drink, food = 1;
+     int  drink = 1, food = 1, option;
      drink_no = 0 ; food_no = 0;
               cout << "................................" << endl;
               cout << "ORDER PLACEMENT" << endl; 
               cout << "................................" << endl;
+              lable:
+              cout << "OPTION"<< endl; 
+              cout << "1. FOOD" << endl; 
+              cout << "2. DRINK" << endl; 
+              cout << "3. DONE\n";
+              cin >> option; 
+              if (option == 1) {
             while (food == 1){
               cout << "Enter the Food you want to place (Enter the number): "; 
               cin >> order[order_no].food[food_no]; 
@@ -316,9 +300,10 @@ void order_placement(){
               cout << "Do you want to add another food? \n 0. NO \n 1. YES \n"; 
               cin >> food; 
               food_no += 1; 
-            }
-        cout << "Do you want to order a drink?\n 0. NO \n 1. YES \n"; 
-        cin>> drink; 
+               }
+               goto lable; 
+          }
+               else if (option == 2) {
             while(drink == 1){
               cout << "Enter the Drink you want to place (Enter the number): "; 
               cin >> order[order_no].drink[drink_no]; 
@@ -328,6 +313,15 @@ void order_placement(){
               cin >> drink; 
               drink_no += 1; 
             } 
+            goto lable;
+         }
+              else if (option == 3) {
+            system("cls");
+          }
+              else {
+                cout << "Wrong Input"<< endl; 
+                goto lable;
+              }
             order_display();
 }
 
@@ -503,7 +497,7 @@ void mobile_banking(char){
 	}
 
 void payment_calculation ( double price){
-		char Y,y,n; double total,tax,discount,Ttotal = 0;
+		char Y; double tax,discount,Ttotal = 0;
 		int choice;
         cout<<"Are you student?y/n"<<endl;
         cin>>Y;
@@ -544,28 +538,34 @@ void payment_calculation ( double price){
 	cout<<"wrong choice"<<endl;
 	}
 
+double AverageRate(){
+	      return sum_rate / count_rate; 
+}
+
 void rating(){
-	double rate;
+	double rate , option;
 	string comment;
 	label:
+  cout << "OPTION" << endl; 
+  cout << "1. Rate" << endl; 
+  cout << "2. Comment" << endl; 
+  cout << "3. Read previous comments"<< endl; 
+  cout << "4. Exit\n";
+  cin >> option;
+if (option == 1){
+  cout << "Current average rate: "<< AverageRate() << endl; 
 	cout<< "Rate the restaurant ordering system from 1-5 please: ";
 	cin>>rate;
-	
 	 if(rate < 1 || rate > 5){
 	 	cout<<"wrong rate, please rate again!"<<endl;
 	 	goto label;
 	 }
    sum_rate += rate; 
 	 count_rate += 1; 
-	 cout<<endl;
-	
-	 char yn;
-	 cout<<"would you leave your comment about our food (y/n): ";
-	 cin>>yn;
-	 cin.ignore();
-	 cout<<endl; 
-	 if(yn=='y'){
-	 cout<<"comment: ";
+   goto label; 
+}
+else if (option == 2) {
+	 cout<<"Enter your comment\n ";
    cin.ignore();
 	 getline(cin, comment); 
     review.open("comments.txt", ios::app);
@@ -576,15 +576,28 @@ void rating(){
       review << "--------------------------------" << endl; 
     }
     review.close(); 
+    goto label; 
 	 }
-	 else
-	 cout<<"Thank you for choosing us, come again!!!"<<endl << "Enter any key\n";
-   cin>> yn; 
-   }
-
-double AverageRate(){
-	      return sum_rate / count_rate; 
+else if (option == 3) {
+     system("cls");
+     review.open("comments.txt", ios::in);
+     if (review.good() && review.peek() != ifstream:: traits_type::eof()){
+     cout << review.rdbuf(); 
+     cout << "Enter any number when you are done\n"; 
+     cin >> option; 
+     }
+     else cout << "No Comments Yet!"<< endl; 
+     goto label; 
 }
+else if (option == 4){
+  return; 
+}
+else {
+  cout << "Wrong Input\n";
+  goto label;
+}
+}
+
 
 void Record() {
     OrderTrack.open("Order_Record.txt", ios::app);
@@ -607,14 +620,19 @@ void Record() {
 }
 
 void daily_report() {
+  system ("cls");
+  int hold;
   report.open("Daily_Report.txt", ios::app);
   if (report.is_open()) {
     report << "REPORT FOR: "<< __DATE__ << endl << endl; 
     report << "TOTAL NUMBER OF ORDERS: "<< order_no << endl; 
     report << "TOTAL INCOME: "<< daily_income << endl; 
     report << "DAILY AVERAGE RATING: "<< AverageRate() <<endl; 
-    cout << report.rdbuf();  
   }
+  report.close();
+  report.open("Daily_Report.txt", ios::in);
+  cout << report.rdbuf();
+  cin>>hold;
   report.close();
 }
 
@@ -647,7 +665,7 @@ int main () {
          }      
          else if (customer_choice == 2) {
              system("cls");
-             about_us.open("aboutus.txt"); 
+             about_us.open("aboutus.txt", ios::in); 
              cout<< about_us.rdbuf(); 
              cin >> choice;
          }
@@ -662,7 +680,28 @@ int main () {
                    manage_item(); 
             }
             else if (employee_choice==2) {
-                   table_reserve();
+                bool manage = true ;
+                int option; 
+                while (manage){
+                       cout << "OPTION"<< endl; 
+                       cout << "1. Display Available Tables\n"; 
+                       cout << "2. Delete Reserved Table\n";
+                       cout << "3. Exit\ns";
+                       cin >> option;
+                       if (option == 1) {
+                        system("cls");
+                        available(tables);
+                        display(tables);
+                       }
+                       else if (option == 2) {
+                        delete_table();
+                       }
+                       else if (option == 3){
+                        manage = false; 
+                       }
+                       else cout << "Wrong Input!\n";
+
+                }
           
             }
             else if (employee_choice==3) {
