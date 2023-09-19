@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1695134174 source:c:\users\robel sisay\desktop\fop_with_database\main.cpp
+	<iostream>
+	<mysql.h>
+	<iomanip>
+	<string.h>
+	<fstream>
+
