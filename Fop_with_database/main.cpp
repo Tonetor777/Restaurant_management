@@ -5,7 +5,7 @@
 #include<fstream>
 using namespace std;
 
-int tables[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
 fstream table, OrderTrack, review, about_us, report;
 int  order_no = 0, food_no, drink_no, count_rate = 0;
 double price, daily_income = 0, sum_rate = 0;
@@ -26,7 +26,7 @@ struct order_track
 int option()
 {
     system("cls");
-lable:
+    lable:
     cout << "    ________________________________________________________________________________________________________________________" << endl << endl;
     cout << " SSSSS    AAA   LL      EEEEEEE MM    MM    RRRRRR  EEEEEEE  SSSSS  TTTTTTT   AAA   UU   UU RRRRRR    AAA   NN   NN TTTTTTT " << endl;
     cout << "SS       AAAAA  LL      EE      MMM  MMM    RR   RR EE      SS        TTT    AAAAA  UU   UU RR   RR  AAAAA  NNN  NN   TTT   " << endl;
@@ -100,7 +100,6 @@ lable:
 }
 void table_reservation (MYSQL *conn)
 {
-
     int choice;
     bool cont = true;
     while(cont)
@@ -153,15 +152,15 @@ void table_reservation (MYSQL *conn)
                     return;
                 }
             }
+            system("cls");
             cout << "Unavailable\n";
-
-
             break;
         case 3:
             cont = false;
             system("cls");
             break;
         default:
+            system("cls");
             cout << "Invalid Input\n";
             break;
         }
@@ -334,7 +333,7 @@ void order_placement(MYSQL *conn)
     food_no = 0;
     MYSQL_RES *res, *avidrink;
     MYSQL_ROW  row;
-lable:
+    lable:
     system ("cls");
     Menu(conn);
     cout << endl << endl;
@@ -348,7 +347,7 @@ lable:
     cin >> option;
     if (option == 1)
     {
-add_food:
+        add_food:
         mysql_query(conn, "select menu_id from menu where type = 'food' and availability = 1");
         res = mysql_store_result(conn);
         cout << "Enter the Food you want to place (Enter the food_id): ";
@@ -377,7 +376,7 @@ add_food:
     else if (option == 2)
     {
 
-addrink:
+        addrink:
         mysql_query(conn, "select menu_id from menu where type = 'drink' and availability = 1");
         avidrink = mysql_store_result(conn);
         cout << "Enter the Drink you want to place (Enter the Drink_id): ";
@@ -656,7 +655,6 @@ void mobile_banking(char)
 
 void payment_calculation ( double price)
 {
-    char Y;
     double tax,Ttotal = 0;
     int choice;
     //To calculate the 15% tax of the total
@@ -690,118 +688,80 @@ void payment_calculation ( double price)
 }
 
 
-void rating(MYSQL *conn)
-{
-label:
-    system("cls");
-    int rate, option;
-    int id;
+void rating(MYSQL *conn) {
+    int option;
     string comment;
-
-    cout << "OPTION" << endl;
-    cout << "1. Rate" << endl;
-    cout << "2. Comment" << endl;
-    cout << "3. Read previous comments"<< endl;
-    cout << "4. Exit\n";
-    cin >> option;
-
-    char query[100];
-    if (option == 1)
-    {
-        cout<< "Rate the restaurant ordering system from 1-5 please: ";
-        cin>>rate;
-        if(rate < 1 || rate > 5)
-        {
-            cout<<"wrong rate, please rate again!"<<endl;
-            goto label;
-        }
-        else
-        {
-            sprintf(query, "INSERT INTO feedback (student_id, rating , feedback_date) VALUES ('%d', '%d', curdate())", id, rate);
-
-
-            if (mysql_query(conn, query))
-            {
-                cerr << "query failed: " << mysql_error(conn) <<endl;
-                mysql_close(conn);
-
-            }
-        }
-        goto label;
-    }
-    else if (option == 2)
-    {
-        cout<<"Enter your comment\n ";
-        cin.ignore();
-        getline(cin, comment);
-        sprintf(query, "INSERT INTO feedback ( student_id, comment, feedback_date) VALUES ( '%d', '%s', curdate())", id, comment.c_str());
-
-        if (mysql_query(conn, query))
-        {
-            cerr << "query failed: " << mysql_error(conn) <<endl;
-            mysql_close(conn);
-        }
-        goto label;
-
-    }
-    else if (option == 3)
-    {
-        MYSQL_RES *res;
-        MYSQL_ROW row;
-        mysql_query(conn, "select comment from feedback");
-        res = mysql_store_result(conn);
+        review:
         system("cls");
-        cout << "---------------------\n";
-        cout << "COMMENTS\n";
-        cout << "---------------------\n\n";
-        while ((row = mysql_fetch_row(res)))
-        {
+        cout << "OPTIONS" << endl;
+        cout << "1. Rate" << endl;
+        cout << "2. Comment" << endl;
+        cout << "3. Read previous comments" << endl;
+        cout << "4. Exit" << endl;
+        cin >> option;
 
-            for (unsigned int i = 0; i < mysql_num_fields(res); i++)
-            {
-                if (row[i] == NULL)
-                {
-                    break;
+        if (option == 1) {
+            int rate;
+            cout << "Rate the restaurant ordering system from 1-5: ";
+            cin >> rate;
+
+            if (rate < 1 || rate > 5) {
+                cout << "Invalid rating. Please rate again!" << endl;
+            } else {
+                char query[100];
+                sprintf(query, "INSERT INTO feedback (rating, feedback_date) VALUES (%d, CURDATE())", rate);
+
+                if (mysql_query(conn, query)) {
+                    cerr << "Query failed: " << mysql_error(conn) << endl;
+                    return;
                 }
-
-                else
-                {
-
-                    cout << row[i] << "\t" << endl;
-
-                }
-                cout << endl;
-
+                cout << "Rating submitted successfully!" << endl;
             }
+            system("pause");
+            goto review;
+        } else if (option == 2) {
+            cin.ignore();
+            cout << "Enter your comment: ";
+            getline(cin, comment);
 
+            char query[500];
+            sprintf(query, "INSERT INTO feedback (comment, feedback_date) VALUES ('%s', CURDATE())", comment.c_str());
+
+            if (mysql_query(conn, query)) {
+                cerr << "Query failed: " << mysql_error(conn) << endl;
+                system("pause");
+                return;
+            }
+            cout << "Comment submitted successfully!" << endl;
+            system("pause");
+            goto review;
+        } else if (option == 3) {
+            MYSQL_RES *res;
+            MYSQL_ROW row;
+            mysql_query(conn, "SELECT comment FROM feedback");
+            res = mysql_store_result(conn);
+            system("cls");
+            cout << "---------------------" << endl;
+            cout << "COMMENTS" << endl;
+            cout << "---------------------" << endl;
+
+            while ((row = mysql_fetch_row(res))) {
+                    if (row[0] != NULL) {
+                        cout << row[0] << endl;
+                    }
+            }
+            cout << "------------------------" << endl;
+            system("pause");
+            goto review;
+        } else if (option == 4) {
+            return;
+        } else {
+            cout << "Wrong Input" << endl;
+            system ("pause");
+            goto review;
         }
-        cout << "------------------------\n";
 
-    }
-    else if (option == 4)
-    {
-        return;
-    }
-    else
-    {
-        cout << "Wrong Input\n";
-        goto label;
-    }
-    system("pause");
-    goto label;
-}
-void orderRecord(MYSQL *conn)
-{
-    char insertOrderItemQuery[200];
-    sprintf(insertOrderItemQuery, "INSERT INTO order_record(student_id,order_date, total_amount) VALUES (%d, curdate(), %2f)",
-            order[order_no].stud_id, order[order_no].total_price);
-
-    if (mysql_query(conn, insertOrderItemQuery))
-    {
-        std::cerr << "INSERT failed: " << mysql_error(conn) << endl;
-        mysql_close(conn);
-        return;
-    }
+        system("pause");
 
 }
 
@@ -919,7 +879,6 @@ lable:
         cschoice = customer();
         if (cschoice == 1)
         {
-            char done;
             int order;
             table_reservation(conn);
             Menu(conn);
@@ -954,6 +913,7 @@ lable:
             system("cls");
             about_us.open("aboutus.txt", ios::in);
             cout<< about_us.rdbuf();
+            system("pause");
 
         }
         else if (cschoice == 3)
@@ -982,6 +942,7 @@ lable:
             {
                 daily_report();
                 system("pause");
+                exit(-1);
             }
             else cout << "Wrong Password\n";
         }
