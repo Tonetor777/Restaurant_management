@@ -6,13 +6,12 @@
 using namespace std;
 
 
-fstream table, OrderTrack, review, about_us, report;
-int  order_no = 0, food_no, drink_no, count_rate = 0;
-double price, daily_income = 0, sum_rate = 0;
-string line;
+fstream OrderTrack,about_us, report;
+int  order_no = 0, food_no, drink_no;
+double price, daily_income = 0;
+
 struct order_track
 {
-    int stud_id;
     int food [10];
     int food_quantity[10];
     int drink[10];
@@ -67,10 +66,12 @@ lable:
     cout << "OPTIONS" << endl;
     cout << "1. MENU MANAGEMENT"<< endl;
     cout << "2. TABLE MANAGEMENT" << endl;
-    cout << "3. EXIT" << endl;
+    cout << "3. EXIT THE PROGRAM" << endl;
+    cout << "4. RETURN" << endl;
     cin >> option;
-    if (option == 1 || option == 2) return option;
-    else if (option == 3) {}
+    if (option == 1 || option == 2 || option == 3|| option == 4 )
+        return option;
+
     else
     {
         cout << "Wrong Input\n";
@@ -88,10 +89,12 @@ lable:
     cout << "1. Order\n";
     cout << "2. About us\n";
     cout << "3. Review\n";
+    cout << "4. Exit\n";
     cin >> option;
     if (option == 1) return 1;
     else if (option == 2) return 2;
     else if (option == 3) return 3;
+    else if (option == 4) return 4;
     else
     {
         cout << "Wrong Input\n";
@@ -200,7 +203,6 @@ void tableManagement (MYSQL *conn)
         {
             if (table == stoi(row[0]) )
             {
-                order[order_no].table_no = table;
                 sprintf(query, "update table_reservation set availability = 1 WHERE table_number = %d", table);
 
                 if (mysql_query(conn, query))
@@ -227,10 +229,10 @@ void tableManagement (MYSQL *conn)
 }
 
 
-MYSQL_RES *foodmenu, *drinkmenu;
+
 void Menu (MYSQL *conn)
 {
-
+    MYSQL_RES *foodmenu, *drinkmenu;
 
     MYSQL_ROW row;
     cout<< endl;
@@ -289,7 +291,6 @@ void order_display(MYSQL *conn)
                 cerr << "Error executing query: " << mysql_error(conn) << endl;
                 continue;
             }
-
             res = mysql_store_result(conn);
             while ((row = mysql_fetch_row(res)))
             {
@@ -328,7 +329,7 @@ void order_display(MYSQL *conn)
 void order_placement(MYSQL *conn)
 {
 
-    int  drink = 1, food = 1, option;
+    int  drink, food, option;
     drink_no = 0 ;
     food_no = 0;
     MYSQL_RES *res, *avidrink;
@@ -418,7 +419,7 @@ void order_placement(MYSQL *conn)
 
 void manage_order (MYSQL *conn)
 {
-    int option;
+    int option = 1;
     while (option != 5)
     {
         cout << "..................." << endl;
@@ -482,6 +483,10 @@ void manage_order (MYSQL *conn)
             }
             drink_no -= 1;
         }
+        else if(option == 5){
+            order_display(conn);
+            return;
+        }
         else cout << "Wrong input! Please choose from the options.\n";
 
     }
@@ -491,9 +496,7 @@ void manage_order (MYSQL *conn)
 
 void manage_menu (MYSQL *conn)
 {
-    int option, meal;
-
-
+    int option = 1, meal;
     while (option != 5)
     {
         cout << "Current Food and Drinks Available";
@@ -591,11 +594,11 @@ void manage_menu (MYSQL *conn)
         system ("cls");
     }
 }
-void cash(char)
+void cash()
 {
     cout<<"You can go and pay to the cashier"<<endl;
 }
-void credit_card(int)
+void credit_card()
 {
     string name,pin;
     int cvv,Expt;
@@ -622,7 +625,7 @@ label:
         cout<<"your payment is completed"<<endl;
     }
 }
-void mobile_banking(char)
+void mobile_banking()
 {
     int choice1;
     string done;
@@ -673,15 +676,15 @@ void payment_calculation ( double price)
     cin>>choice;
     if(choice==1)
     {
-        cash(2);
+        cash();
     }
     else if(choice==2)
     {
-        credit_card(2);
+        credit_card();
     }
     else if(choice==3)
     {
-        mobile_banking(3);
+        mobile_banking();
     }
     else
         cout<<"wrong choice"<<endl;
@@ -876,6 +879,7 @@ lable:
     choice = option();
     if(choice == 1)
     {
+        customer:
         cschoice = customer();
         if (cschoice == 1)
         {
@@ -914,16 +918,26 @@ lable:
             about_us.open("aboutus.txt", ios::in);
             cout<< about_us.rdbuf();
             system("pause");
+            about_us.close();
+            goto customer;
 
         }
         else if (cschoice == 3)
         {
             rating(conn);
+            goto customer;
         }
+         else if (cschoice == 4)
+        {
+            goto lable;
+        }
+
         else cout << "Wrong Input!\n";
     }
     else if (choice== 2)
     {
+        employee:
+        system("cls");
         employee_choice = employees();
         if (employee_choice == 1)
         {
@@ -942,9 +956,15 @@ lable:
             {
                 daily_report();
                 system("pause");
-                exit(-1);
+                mysql_close(conn);
+                exit(0);
             }
             else cout << "Wrong Password\n";
+
+        }
+        else if (employee_choice==4) {
+            system ("cls");
+            goto lable;
         }
         else cout << "Wrong Input!";
     }

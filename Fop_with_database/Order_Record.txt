@@ -1,0 +1,25 @@
+-----------------------------
+ORDER RECORD FOR Sep 19 2023
+-----------------------------
+
+-----------------------------
+ORDER RECORD FOR Sep 19 2023
+-----------------------------
+
+-----------------------------
+ORDER RECORD FOR Sep 19 2023
+-----------------------------
+
+ORDER NUMBER: 0
+ORDER:
+ FOOD                QUANTITY  PRICE
+1 :Enkulal Sandwich    1         45   
+ DRINK               QUANTITY  PRICE
+1 :Juice               1         30   
+ON TABLE NUMBER: 6
+TOTAL PAYMENT: 86.25
+_______________________________________________
+-----------------------------
+ORDER RECORD FOR Sep 19 2023
+-----------------------------
+
